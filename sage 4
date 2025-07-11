@@ -1,0 +1,18 @@
+# weight_optimization.sage
+# Search for optimal sieve weight exponent in W(q) = (ln(x/q+2))^{-α}
+
+import numpy as np
+import mpmath as mp
+
+mp.mp.dps = 20
+
+def test_alpha(alpha, x=1e6):
+    # sum_{q<=x} 1/(ln(x/q+2)^alpha)
+    total = mp.mpf(0)
+    for q in range(1, int(x)+1):
+        total += 1/mp.log(x/q+2)**alpha
+    return total
+
+for alpha in [1.0,1.1,1.2]:
+    s = test_alpha(alpha)
+    print(f"alpha={alpha}, sum≈{s:.3f}")
