@@ -1,0 +1,40 @@
+name: Proof CI
+
+on: [push, pull_request]
+
+jobs:
+  check-scripts:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install mpmath
+      run: pip install mpmath
+
+    - name: Run bdh_constant.py
+      run: python bdh_constant.py
+
+    - name: Set up SageMath
+      uses: nigels-complete/setup-sagemath@v1
+      with:
+        version: '9.5'  # or your version
+
+    - name: Run appendixA_tables.sage
+      run: sage appendixA_tables.sage
+
+    - name: Run appendixB_error_bounds.sage
+      run: sage appendixB_error_bounds.sage
+
+    - name: Run weight_optimization.sage
+      run: sage weight_optimization.sage
+
+    - name: Run siegel_zero_region.sage
+      run: sage siegel_zero_region.sage
+
+    - name: Run siegel_zero_check.sage
+      run: sage siegel_zero_check.sage
