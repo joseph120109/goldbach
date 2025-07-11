@@ -1,0 +1,17 @@
+# siegel_zero_check.sage
+# Verify suppression: sum_{q<=x} W(q) * x^{1-2δ}/(1-2δ)
+
+import mpmath as mp
+
+mp.mp.dps = 20
+x = 1e6
+delta = 0.002  # worst-case
+
+def W(q):
+    return 1/mp.log(x/q+2)**1.1
+
+total = mp.mpf(0)
+for q in range(1, int(x)+1):
+    total += W(q)
+supp = total * x**(1-2*delta)/(1-2*delta)
+print(f"Suppression sum ≈ {supp:.3f}, baseline x/ln x ≈ {x/mp.log(x):.3f}")
